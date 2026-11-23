@@ -65,13 +65,49 @@
                         <option value="isbn">ISBN</option>
                         <option value="formato">Formato</option>
                         <option value="nome_serie">Nome da série</option>
-                    </select>s
+                    </select>
                     <input class="form-control" type="search" name="pesquisa" placeholder="Procurar comics..."
                         required>
                     <button class="btn btn-outline-light" type="submit">
                         Procurar
                     </button>
                 </form>
+                <!-- Autenticação -->
+                <ul class="navbar-nav ms-lg-3">
+
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                Login
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">
+                                Registar
+                            </a>
+                        </li>
+                    @endguest
+
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('dashboard') }}">
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <button type="submit" class="btn btn-link nav-link">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                    @endauth
+
+                </ul>
 
             </div>
         </div>

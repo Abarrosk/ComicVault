@@ -4,6 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ComicController;
 use App\Http\Controllers\IssueController;
+use App\Http\Controllers\DashboardController;
+
 
 // Homepage
 Route::get('/', function () {
@@ -31,3 +33,7 @@ Route::get('/issues', [IssueController::class, 'allIssues'])
 
 Route::get('/issues/{id}', [IssueController::class, 'allIssues'])
     ->name('issues.show');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard');
