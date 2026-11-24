@@ -86,13 +86,12 @@ public function storeComic(Request $request)
         'descricao' => 'nullable|string',
         'capa' => 'nullable|image|max:2048',
         'quantidade_issues' => 'required|integer|min:0|max:100',
-
+        'numero' => 'nullable|string|max:20',
+        'issues.*.isbn' => 'nullable|string|max:20',
         'issues' => 'nullable|array',
         'issues.*.nome_serie' => 'required|string|max:255',
         'issues.*.numero_edicao' => 'required|string|max:20',
         'issues.*.titulo' => 'nullable|string|max:255',
-        'issues.*.data_publicacao' => 'nullable|date',
-        'issues.*.capa' => 'nullable|image|max:2048',
     ]);
 
     // Guardar a capa do comic
@@ -111,34 +110,22 @@ public function storeComic(Request $request)
         'formato' => $request->formato,
         'descricao' => $request->descricao,
         'caminho_capa' => $caminhoCapa,
+        'numero' => $request->numero,
+
     ]);
 
     // Criar as issues associadas ao comic
     foreach ($request->input('issues', []) as $indice => $dadosIssue) {
-
-        $caminhoCapaIssue = null;
-
-        if ($request->hasFile("issues.$indice.capa")) {
-            $caminhoCapaIssue = Storage::disk('public')
-                ->putFile(
-                    'issues',
-                    $request->file("issues.$indice.capa")
-                );
-        }
-
         Issue::create([
             'id_comic' => $comic->id,
             'nome_serie' => $dadosIssue['nome_serie'],
             'numero_edicao' => $dadosIssue['numero_edicao'],
             'titulo' => $dadosIssue['titulo'] ?? null,
-            'data_publicacao' => $dadosIssue['data_publicacao'] ?: null,
-            'caminho_capa' => $caminhoCapaIssue,
+            'isbn' => $dadosIssue['isbn'] ?? null,
         ]);
     }
-
     return redirect()
         ->route('comics.show', $comic->id)
         ->with('message', 'Comic e issues adicionados com sucesso!');
 }
-
 }

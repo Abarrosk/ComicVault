@@ -23,7 +23,8 @@ class IssueController extends Controller
             'issues.titulo',
             'issues.data_publicacao',
             'issues.caminho_capa',
-            'comics.titulo as titulo_comic'
+            'comics.titulo as titulo_comic',
+            'issues.isbn'
         )
         ->get();
 
@@ -53,7 +54,8 @@ class IssueController extends Controller
                 'issues.titulo',
                 'issues.data_publicacao',
                 'issues.caminho_capa',
-                'comics.titulo as titulo_comic'
+                'comics.titulo as titulo_comic',
+                'issues.isbn'
             )
             ->firstOrFail();
         }

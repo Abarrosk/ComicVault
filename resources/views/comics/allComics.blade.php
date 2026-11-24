@@ -1,4 +1,3 @@
-
 @extends('layouts.frontOffice')
 
 @section('title', 'Lista de Comics')
@@ -15,11 +14,13 @@
             <tr>
                 <th>Capa</th>
                 <th>Título</th>
+                <th>Número</th>
                 <th>Editor</th>
                 <th>ISBN</th>
                 <th>Formato</th>
                 <th>N.º Issues</th>
                 <th>Ações</th>
+
             </tr>
         </thead>
 
@@ -28,23 +29,21 @@
                 <tr>
                     <td>
                         @if ($comic->caminho_capa)
-                            <img src="{{ asset('storage/' . $comic->caminho_capa) }}"
-                                 width="70"
-                                 alt="Capa do comic">
+                            <img src="{{ asset('storage/' . $comic->caminho_capa) }}" width="70" alt="Capa do comic">
                         @else
                             Sem capa
                         @endif
                     </td>
 
                     <td>{{ $comic->titulo }}</td>
+                    <td>{{ $comic->numero }}</td>
                     <td>{{ $comic->editor }}</td>
                     <td>{{ $comic->isbn }}</td>
                     <td>{{ $comic->formato }}</td>
                     <td>{{ $comic->numero_issues }}</td>
 
                     <td>
-                        <a href="{{ route('comics.show', $comic->id) }}"
-                           class="btn btn-primary btn-sm">
+                        <a href="{{ route('comics.show', $comic->id) }}" class="btn btn-primary btn-sm">
                             Ver detalhes
                         </a>
                     </td>
@@ -73,6 +72,11 @@
                 </tr>
 
                 <tr>
+                    <th>Número</th>
+                    <td>{{ $comicInfo->numero }}</td>
+                </tr>
+
+                <tr>
                     <th>Editor</th>
                     <td>{{ $comicInfo->editor }}</td>
                 </tr>
@@ -96,9 +100,7 @@
                     <th>Capa</th>
                     <td>
                         @if ($comicInfo->caminho_capa)
-                            <img src="{{ asset('storage/' . $comicInfo->caminho_capa) }}"
-                                 width="150"
-                                 alt="Capa do comic">
+                            <img src="{{ asset('storage/' . $comicInfo->caminho_capa) }}" width="150" alt="Capa do comic">
                         @else
                             Sem capa
                         @endif

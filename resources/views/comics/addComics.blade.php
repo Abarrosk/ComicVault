@@ -30,6 +30,11 @@
         </div>
 
         <div class="mb-3">
+            <label class="form-label">Número do Comic (opcional)</label>
+            <input type="text" name="numero" class="form-control" value="{{ old('numero') }}">
+        </div>
+
+        <div class="mb-3">
             <label class="form-label">Editor</label>
             <input type="text" name="editor" class="form-control" value="{{ old('editor') }}" required>
         </div>
@@ -71,16 +76,19 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label">ISBN da Issue (opcional)</label>
+                    <input type="text" name="issues[{{ $i }}][isbn]" class="form-control"
+                        value="{{ old('issues.' . $i . '.isbn') }}">
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label">Título da Issue</label>
                     <input type="text" name="issues[{{ $i }}][titulo]" class="form-control"
                         value="{{ old('issues.' . $i . '.titulo') }}">
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Data de Publicação</label>
-                    <input type="date" name="issues[{{ $i }}][data_publicacao]" class="form-control"
-                        value="{{ old('issues.' . $i . '.data_publicacao') }}">
-                </div>
+
+
 
             </div>
         @endfor
@@ -99,16 +107,6 @@
             <label class="form-label">Capa do Comic</label>
             <input type="file" name="capa" class="form-control" accept="image/*">
         </div>
-
-        @for ($i = 0; $i < $quantidadeIssues; $i++)
-            <div class="mb-3">
-                <label class="form-label">
-                    Capa da Issue {{ $i + 1 }}
-                </label>
-
-                <input type="file" name="issues[{{ $i }}][capa]" class="form-control" accept="image/*">
-            </div>
-        @endfor
 
         <hr>
 

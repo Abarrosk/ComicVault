@@ -82,6 +82,11 @@
                 </tr>
 
                 <tr>
+                    <th>ISBN</th>
+                    <td>{{ $issueInfo->isbn }}</td>
+                </tr>
+
+                <tr>
                     <th>Comic associado</th>
                     <td>
                         <a href="{{ route('comics.show', $issueInfo->id_comic) }}">
