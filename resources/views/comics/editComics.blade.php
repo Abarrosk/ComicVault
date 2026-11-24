@@ -153,7 +153,7 @@
 
         <div class="mb-3">
             <label class="form-label">
-                Substituir capa (opcional)
+                 Apenas uma capa por comic
             </label>
 
             <input type="file" name="capa" class="form-control" accept="image/*">
