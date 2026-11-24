@@ -61,3 +61,8 @@ Route::get('/comics/{id}/eliminar', [ComicController::class, 'confirmarEliminarC
 Route::delete('/comics/{id}', [ComicController::class, 'deleteComic'])
     ->middleware('auth')
     ->name('comics.destroy');
+
+    // Rota fallback - Página não encontrada
+Route::fallback(function () {
+    return response()->view('utils.fallback', [], 404);
+});

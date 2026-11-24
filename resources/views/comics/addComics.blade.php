@@ -110,9 +110,17 @@
 
         <hr>
 
-        <button type="submit" name="acao" value="guardar" class="btn btn-success">
-            Guardar Comic
-        </button>
+        <div class="d-flex gap-2">
+
+            <button type="submit" name="acao" value="guardar" class="btn btn-success">
+                Guardar Comic
+            </button>
+
+            <a href="{{ route('comics.all') }}" class="btn btn-secondary">
+                Cancelar
+            </a>
+
+        </div>
 
     </form>
 

@@ -93,6 +93,51 @@
             <p>Este comic não tem issues associadas.</p>
         @endforelse
 
+
+        @if (Auth::user()->tipo_utilizador == 1)
+
+            <input type="hidden" name="quantidade_novas_issues" value="{{ $quantidadeNovasIssues }}">
+
+            @for ($i = 0; $i < $quantidadeNovasIssues; $i++)
+                <div class="border rounded p-3 mb-3">
+
+                    <h5>Nova Issue {{ $i + 1 }}</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nome da Série</label>
+                        <input type="text" name="novas_issues[{{ $i }}][nome_serie]" class="form-control"
+                            value="{{ old('novas_issues.' . $i . '.nome_serie') }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Número da Edição</label>
+                        <input type="text" name="novas_issues[{{ $i }}][numero_edicao]" class="form-control"
+                            value="{{ old('novas_issues.' . $i . '.numero_edicao') }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">ISBN (opcional)</label>
+                        <input type="text" name="novas_issues[{{ $i }}][isbn]" class="form-control"
+                            value="{{ old('novas_issues.' . $i . '.isbn') }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Título (opcional)</label>
+                        <input type="text" name="novas_issues[{{ $i }}][titulo]" class="form-control"
+                            value="{{ old('novas_issues.' . $i . '.titulo') }}">
+                    </div>
+
+                </div>
+            @endfor
+
+            <button type="submit" name="acao" value="adicionar_issue" formnovalidate
+                class="btn btn-outline-primary mb-4">
+                + Adicionar Issue
+            </button>
+
+        @endif
+
+
         <hr>
 
         <h4>Capa do Comic</h4>
