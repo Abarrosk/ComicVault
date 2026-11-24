@@ -128,4 +128,165 @@ public function storeComic(Request $request)
         ->route('comics.show', $comic->id)
         ->with('message', 'Comic e issues adicionados com sucesso!');
 }
+
+ // Apresentar formulário de edição
+public function editComic(int $id)
+{
+    $comic = Comic::where('id', $id)->firstOrFail();
+
+    $issuesComic = Issue::where('id_comic', $id)->get();
+
+    return view('comics.editComics',
+        compact('comic', 'issuesComic'));
+}
+
+
+ // Atualizar Comic e respetivas Issues
+public function updateComic(Request $request, int $id)
+{
+    $comic = Comic::where('id', $id)->firstOrFail();
+
+    // Validar dados recebidos
+    $request->validate([
+        'titulo' => 'required|string|max:255',
+        'numero' => 'nullable|string|max:20',
+        'editor' => 'required|string|max:100',
+        'isbn' => 'nullable|string|max:20|unique:comics,isbn,' . $comic->id,
+        'formato' => 'nullable|string|max:50',
+        'descricao' => 'nullable|string',
+        'capa' => 'nullable|image|max:2048',
+
+        'issues' => 'nullable|array',
+        'issues.*.nome_serie' => 'required|string|max:255',
+        'issues.*.numero_edicao' => 'required|string|max:20',
+        'issues.*.isbn' => 'nullable|string|max:20',
+        'issues.*.titulo' => 'nullable|string|max:255',
+    ]);
+
+    // Manter a capa anterior se não for enviada outra
+    $caminhoCapa = $comic->caminho_capa;
+    $caminhoAntigo = $comic->caminho_capa;
+    $novaCapa = false;
+
+    if ($request->hasFile('capa')) {
+
+        $caminhoCapa = Storage::disk('public')
+            ->putFile('comics', $request->file('capa'));
+
+        $novaCapa = true;
+    }
+
+    // Atualizar os dados do comic
+    $comic->update([
+        'titulo' => $request->titulo,
+        'numero' => $request->numero,
+        'editor' => $request->editor,
+        'isbn' => $request->isbn,
+        'formato' => $request->formato,
+        'descricao' => $request->descricao,
+        'caminho_capa' => $caminhoCapa,
+    ]);
+
+    // Atualizar as issues já associadas ao comic
+    $issuesComic = Issue::where('id_comic', $comic->id)->get();
+
+    foreach ($issuesComic as $issue) {
+
+        $dadosIssue = $request->input('issues.' . $issue->id);
+
+        if ($dadosIssue !== null) {
+
+            $issue->update([
+                'nome_serie' => $dadosIssue['nome_serie'],
+                'numero_edicao' => $dadosIssue['numero_edicao'],
+                'isbn' => $dadosIssue['isbn'] ?? null,
+                'titulo' => $dadosIssue['titulo'] ?? null,
+            ]);
+        }
+    }
+
+    // Remover a capa antiga do armazenamento local, se foi substituída
+    if ($novaCapa && $caminhoAntigo &&
+        !str_starts_with($caminhoAntigo, 'http')) {
+
+        Storage::disk('public')->delete($caminhoAntigo);
+    }
+
+    return redirect()
+        ->route('comics.show', $comic->id)
+        ->with('message', 'Comic atualizado com sucesso!');
+}
+
+ // Apresentar confirmação de eliminação
+public function confirmarEliminarComic(int $id)
+{
+    // Apenas administradores
+    if (Auth::user()->tipo_utilizador != 1) {
+        abort(403);
+    }
+
+    $comic = Comic::where('id', $id)->firstOrFail();
+
+    $numeroIssues = Issue::where('id_comic', $id)->count();
+
+    return view('comics.confirmarEliminarComic',
+        compact('comic', 'numeroIssues'));
+}
+
+
+
+ // Eliminar Comic
+public function deleteComic(int $id)
+{
+    // Apenas administradores
+    if (Auth::user()->tipo_utilizador != 1) {
+        abort(403);
+    }
+
+    $comic = Comic::where('id', $id)->firstOrFail();
+
+    $caminhoCapa = $comic->caminho_capa;
+
+    // Eliminar o comic da base de dados
+    $comic->delete();
+
+    // Eliminar a capa guardada localmente
+    if ($caminhoCapa &&
+        !str_starts_with($caminhoCapa, 'http')) {
+
+        Storage::disk('public')->delete($caminhoCapa);
+    }
+
+    return redirect()
+        ->route('comics.all')
+        ->with('message', 'Comic eliminado com sucesso!');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -43,10 +43,29 @@
                     <td>{{ $comic->numero_issues }}</td>
 
                     <td>
-                        <a href="{{ route('comics.show', $comic->id) }}" class="btn btn-primary btn-sm">
-                            Ver detalhes
-                        </a>
+                        <div class="d-flex gap-2">
+
+                            <a href="{{ route('comics.show', $comic->id) }}" class="btn btn-primary btn-sm">
+                                Ver detalhes
+                            </a>
+
+                            @auth
+
+                                <a href="{{ route('comics.edit', $comic->id) }}" class="btn btn-warning btn-sm">
+                                    Editar
+                                </a>
+
+                                @if (Auth::user()->tipo_utilizador == 1)
+                                    <a href="{{ route('comics.confirmarEliminar', $comic->id) }}" class="btn btn-danger btn-sm">
+                                        Eliminar
+                                    </a>
+                                @endif
+
+                            @endauth
+
+                        </div>
                     </td>
+
                 </tr>
             @endforeach
         </tbody>
@@ -100,7 +119,8 @@
                     <th>Capa</th>
                     <td>
                         @if ($comicInfo->caminho_capa)
-                            <img src="{{ asset('storage/' . $comicInfo->caminho_capa) }}" width="150" alt="Capa do comic">
+                            <img src="{{ asset('storage/' . $comicInfo->caminho_capa) }}" width="150"
+                                alt="Capa do comic">
                         @else
                             Sem capa
                         @endif

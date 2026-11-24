@@ -42,3 +42,22 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     // Pesquisa geral de comics e issues
 Route::get('/pesquisa', [PesquisaController::class, 'resultados'])
     ->name('pesquisa.resultados');
+
+     // Editar Comic
+Route::get('/comics/{id}/editar', [ComicController::class, 'editComic'])
+    ->middleware('auth')
+    ->name('comics.edit');
+
+Route::put('/comics/{id}', [ComicController::class, 'updateComic'])
+    ->middleware('auth')
+    ->name('comics.update');
+
+// Confirmar eliminação
+Route::get('/comics/{id}/eliminar', [ComicController::class, 'confirmarEliminarComic'])
+    ->middleware('auth')
+    ->name('comics.confirmarEliminar');
+
+// Eliminar Comic
+Route::delete('/comics/{id}', [ComicController::class, 'deleteComic'])
+    ->middleware('auth')
+    ->name('comics.destroy');
