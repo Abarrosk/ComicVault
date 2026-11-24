@@ -58,20 +58,34 @@
                 </ul>
 
                 <!-- Formulário de pesquisa -->
-                <form class="d-flex gap-2" role="search" method="GET" action="/comics">
-                    <select class="form-select" name="campo">
-                        <option value="titulo">Título</option>
-                        <option value="editor">Editor</option>
-                        <option value="isbn">ISBN</option>
-                        <option value="formato">Formato</option>
-                        <option value="nome_serie">Nome da série</option>
+
+                <form action="{{ route('pesquisa.resultados') }}" method="GET" class="d-flex gap-2">
+
+                    <input type="search" name="pesquisa" class="form-control" placeholder="Pesquisar..."
+                        value="{{ request('pesquisa') }}" required>
+
+                    <select name="campo" class="form-select">
+
+                        <option value="nome" @if (request('campo', 'nome') == 'nome') selected @endif>
+                            Nome
+                        </option>
+
+                        <option value="numero" @if (request('campo') == 'numero') selected @endif>
+                            Número
+                        </option>
+
+                        <option value="isbn" @if (request('campo') == 'isbn') selected @endif>
+                            ISBN
+                        </option>
+
                     </select>
-                    <input class="form-control" type="search" name="pesquisa" placeholder="Procurar comics..."
-                        required>
-                    <button class="btn btn-outline-light" type="submit">
-                        Procurar
+
+                    <button type="submit" class="btn btn-outline-light">
+                        Pesquisar
                     </button>
+
                 </form>
+
                 <!-- Autenticação -->
                 <ul class="navbar-nav ms-lg-3">
 

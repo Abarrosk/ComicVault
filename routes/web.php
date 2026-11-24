@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ComicController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PesquisaController;
 
 
 // Homepage
@@ -37,3 +38,7 @@ Route::get('/issues/{id}', [IssueController::class, 'allIssues'])
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard');
+
+    // Pesquisa geral de comics e issues
+Route::get('/pesquisa', [PesquisaController::class, 'resultados'])
+    ->name('pesquisa.resultados');
