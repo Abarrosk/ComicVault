@@ -62,6 +62,11 @@ Route::delete('/comics/{id}', [ComicController::class, 'deleteComic'])
     ->middleware('auth')
     ->name('comics.destroy');
 
+    // Página ReadMe First!
+Route::get('/readme-first', function () {
+    return view('utils.readmeFirst');
+})->name('readme.first');
+
     // Rota fallback - Página não encontrada
 Route::fallback(function () {
     return response()->view('utils.fallback', [], 404);
