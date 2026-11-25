@@ -60,5 +60,16 @@ class FortifyServiceProvider extends ServiceProvider
 Fortify::registerView(function () {
     return view('auth.register');
 });
-    }
+
+
+    // Página para solicitar a recuperação da palavra-passe
+Fortify::requestPasswordResetLinkView(function () {
+    return view('auth.forgot-password');
+});
+
+// Página para definir uma nova palavra-passe
+Fortify::resetPasswordView(function (Request $request) {
+    return view('auth.reset-password', ['request' => $request]);
+});
+}
 }

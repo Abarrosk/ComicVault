@@ -1,4 +1,4 @@
-# ComicVault
+git commit -m "Documentar recuperacao de palavra-passe com Mailtrap Sandbox"# ComicVault
 
 **Comic book collection management | Gestão de coleções de banda desenhada**
 

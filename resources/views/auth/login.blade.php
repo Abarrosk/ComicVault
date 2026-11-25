@@ -3,6 +3,11 @@
 @section('title', 'Iniciar Sessão')
 
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
 
     <h1>Iniciar Sessão</h1>
 
@@ -33,6 +38,11 @@
         <button type="submit" class="btn btn-primary">
             Entrar
         </button>
+        <div class="mt-3">
+            <a href="{{ route('password.request') }}">
+                Esqueceste-te da palavra-passe?
+            </a>
+        </div>
     </form>
 
 @endsection
