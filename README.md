@@ -28,7 +28,8 @@ Uma aplicação web Laravel para gerir comics e respetivas edições (*issues*),
 - **Three access levels:** guests (read-only), authenticated users (edit) and administrators (create, edit and delete).
 - **Cross-entity search** by name, number or ISBN, with partial matches.
 - **Image upload, display and replacement**, storing file paths in the database and cover images on Laravel's public disk.
-- **User registration, login and protected dashboard** with a personalised greeting.
+- **User registration, login, password recovery/reset and protected dashboard** with a personalised greeting.
+- **Mailtrap Email Sandbox** for testing password reset emails without sending messages to real inboxes.
 - Shared Blade layout, role-aware navigation and custom error pages.
 
 ### Security practices
@@ -41,6 +42,8 @@ Uma aplicação web Laravel para gerir comics e respetivas edições (*issues*),
 ### Local setup
 
 Requires PHP 8.3+, Composer and valid TiDB Cloud connection settings (including the TLS CA certificate). Configure these privately in `.env`.
+
+To test password recovery, configure Mailtrap Email Sandbox SMTP credentials in `.env` (`MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD` and `MAIL_FROM_ADDRESS`). Recovery emails are available in the Mailtrap sandbox inbox, not delivered to real recipients.
 
 ```bash
 composer install
@@ -70,7 +73,8 @@ The existing remote database already contains the project's schema and sample da
 - **Três níveis de acesso:** visitantes (consulta), utilizadores autenticados (edição) e administradores (criação, edição e eliminação).
 - **Pesquisa transversal** por nome, número ou ISBN, incluindo correspondências parciais.
 - **Carregamento, visualização e substituição de capas**, com caminhos guardados na base de dados e imagens no disco público do Laravel.
-- **Registo, início de sessão e Dashboard protegido**, com saudação personalizada.
+- **Registo, início de sessão, recuperação/redefinição de palavra-passe e Dashboard protegido**, com saudação personalizada.
+- **Mailtrap Email Sandbox** para testar mensagens de recuperação de palavra-passe sem as enviar para caixas de correio reais.
 - Layout Blade partilhado, navegação condicionada pelas permissões e páginas de erro personalizadas.
 
 ### Segurança
@@ -83,6 +87,8 @@ The existing remote database already contains the project's schema and sample da
 ### Execução local
 
 Requer PHP 8.3+, Composer e as configurações de acesso ao TiDB Cloud, incluindo o certificado TLS. Estas configurações devem ser introduzidas de forma privada no ficheiro `.env`.
+
+Para testar a recuperação de palavra-passe, é necessário configurar as credenciais SMTP do Mailtrap Email Sandbox no `.env` (`MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD` e `MAIL_FROM_ADDRESS`). As mensagens ficam disponíveis na caixa de testes do Mailtrap, não sendo entregues aos destinatários reais.
 
 ```bash
 composer install
