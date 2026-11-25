@@ -4,7 +4,7 @@ git commit -m "Documentar recuperacao de palavra-passe com Mailtrap Sandbox"# Co
 
 A Laravel web application for managing comic books and their individual issues, developed as a practical full-stack project.
 
-Uma aplicação web Laravel para gerir comics e respetivas edições (*issues*), desenvolvida como projeto prático de desenvolvimento web.
+Uma aplicação web Laravel para gerir comics e respetivas edições (_issues_), desenvolvida como projeto prático de desenvolvimento web.
 
 **[English](#english) · [Português](#português)**
 
@@ -39,20 +39,6 @@ Uma aplicação web Laravel para gerir comics e respetivas edições (*issues*),
 - **CSRF protection** and server-side validation, including image type and upload-size limits.
 - **TLS** for the remote database connection; credentials remain in an untracked `.env` file.
 
-### Local setup
-
-Requires PHP 8.3+, Composer and valid TiDB Cloud connection settings (including the TLS CA certificate). Configure these privately in `.env`.
-
-To test password recovery, configure Mailtrap Email Sandbox SMTP credentials in `.env` (`MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD` and `MAIL_FROM_ADDRESS`). Recovery emails are available in the Mailtrap sandbox inbox, not delivered to real recipients.
-
-```bash
-composer install
-php artisan storage:link
-php artisan serve
-```
-
-The existing remote database already contains the project's schema and sample data; no additional migration is required when connecting to that provisioned database. Images are served through Laravel's public storage symbolic link.
-
 ---
 
 ## Português
@@ -83,17 +69,3 @@ The existing remote database already contains the project's schema and sample da
 - **Middleware `auth`**, verificações de permissões no servidor e componentes Blade condicionados pelo perfil.
 - **Proteção CSRF** e validação dos dados recebidos, incluindo tipo e tamanho das imagens.
 - Ligação **TLS** à base de dados remota; credenciais guardadas no ficheiro `.env`, excluído do Git.
-
-### Execução local
-
-Requer PHP 8.3+, Composer e as configurações de acesso ao TiDB Cloud, incluindo o certificado TLS. Estas configurações devem ser introduzidas de forma privada no ficheiro `.env`.
-
-Para testar a recuperação de palavra-passe, é necessário configurar as credenciais SMTP do Mailtrap Email Sandbox no `.env` (`MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD` e `MAIL_FROM_ADDRESS`). As mensagens ficam disponíveis na caixa de testes do Mailtrap, não sendo entregues aos destinatários reais.
-
-```bash
-composer install
-php artisan storage:link
-php artisan serve
-```
-
-A base de dados remota disponibilizada já contém o esquema e os registos de teste, pelo que não é necessário executar novamente as migrações ao utilizar essa base de dados. As imagens são apresentadas através da ligação simbólica do armazenamento público do Laravel.
