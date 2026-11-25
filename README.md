@@ -1,58 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ComicVault
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Comic book collection management | Gestão de coleções de banda desenhada**
 
-## About Laravel
+A Laravel web application for managing comic books and their individual issues, developed as a practical full-stack project.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Uma aplicação web Laravel para gerir comics e respetivas edições (*issues*), desenvolvida como projeto prático de desenvolvimento web.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**[English](#english) · [Português](#português)**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## English
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Technical stack and architecture
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Back end:** PHP 8.3+, Laravel 13 and Laravel Fortify.
+- **Front end:** Blade templates, HTML, CSS and Bootstrap 5 (responsive layout).
+- **Database:** TiDB Cloud (MySQL-compatible relational database), accessed through **Eloquent ORM**.
+- **Design patterns:** **MVC** for separation of responsibilities; **Active Record** through Eloquent models.
+- **Object-oriented programming:** model and controller classes, inheritance and reusable methods.
+- **Data structures:** Eloquent Collections, model objects and associative arrays for processing form data.
+- **Data modelling:** one-to-many relationship between `comics` and `issues`, enforced by a foreign key with cascading deletion; versioned schema through Laravel migrations.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Features
 
-## Agentic Development
+- **Full CRUD** for comics and issues, including individual issue management.
+- **Three access levels:** guests (read-only), authenticated users (edit) and administrators (create, edit and delete).
+- **Cross-entity search** by name, number or ISBN, with partial matches.
+- **Image upload, display and replacement**, storing file paths in the database and cover images on Laravel's public disk.
+- **User registration, login and protected dashboard** with a personalised greeting.
+- Shared Blade layout, role-aware navigation and custom error pages.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Security practices
+
+- Authentication with **Laravel Fortify**, hashed passwords and login rate limiting.
+- **`auth` middleware**, server-side permission checks and conditional Blade elements.
+- **CSRF protection** and server-side validation, including image type and upload-size limits.
+- **TLS** for the remote database connection; credentials remain in an untracked `.env` file.
+
+### Local setup
+
+Requires PHP 8.3+, Composer and valid TiDB Cloud connection settings (including the TLS CA certificate). Configure these privately in `.env`.
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+php artisan storage:link
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The existing remote database already contains the project's schema and sample data; no additional migration is required when connecting to that provisioned database. Images are served through Laravel's public storage symbolic link.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Português
 
-## Code of Conduct
+### Tecnologias e arquitetura
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **Back-end:** PHP 8.3+, Laravel 13 e Laravel Fortify.
+- **Front-end:** templates Blade, HTML, CSS e Bootstrap 5 (interface adaptável).
+- **Base de dados:** TiDB Cloud (base de dados relacional compatível com MySQL), acedida através do **Eloquent ORM**.
+- **Padrões de desenho:** **MVC**, para separação de responsabilidades, e **Active Record**, através dos Models Eloquent.
+- **Programação orientada a objetos:** classes para Models e Controllers, herança e métodos reutilizáveis.
+- **Estruturas de dados:** Eloquent Collections, objetos dos Models e arrays associativos no tratamento dos formulários.
+- **Modelo relacional:** relação um-para-muitos entre `comics` e `issues`, com chave estrangeira e eliminação em cascata; estrutura definida por migrações Laravel.
 
-## Security Vulnerabilities
+### Funcionalidades
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **CRUD completo** de comics e issues, incluindo gestão individual de cada issue.
+- **Três níveis de acesso:** visitantes (consulta), utilizadores autenticados (edição) e administradores (criação, edição e eliminação).
+- **Pesquisa transversal** por nome, número ou ISBN, incluindo correspondências parciais.
+- **Carregamento, visualização e substituição de capas**, com caminhos guardados na base de dados e imagens no disco público do Laravel.
+- **Registo, início de sessão e Dashboard protegido**, com saudação personalizada.
+- Layout Blade partilhado, navegação condicionada pelas permissões e páginas de erro personalizadas.
 
-## License
+### Segurança
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Autenticação com **Laravel Fortify**, palavras-passe protegidas por hash e limitação de tentativas de início de sessão.
+- **Middleware `auth`**, verificações de permissões no servidor e componentes Blade condicionados pelo perfil.
+- **Proteção CSRF** e validação dos dados recebidos, incluindo tipo e tamanho das imagens.
+- Ligação **TLS** à base de dados remota; credenciais guardadas no ficheiro `.env`, excluído do Git.
+
+### Execução local
+
+Requer PHP 8.3+, Composer e as configurações de acesso ao TiDB Cloud, incluindo o certificado TLS. Estas configurações devem ser introduzidas de forma privada no ficheiro `.env`.
+
+```bash
+composer install
+php artisan storage:link
+php artisan serve
+```
+
+A base de dados remota disponibilizada já contém o esquema e os registos de teste, pelo que não é necessário executar novamente as migrações ao utilizar essa base de dados. As imagens são apresentadas através da ligação simbólica do armazenamento público do Laravel.

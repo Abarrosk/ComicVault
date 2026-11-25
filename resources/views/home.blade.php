@@ -9,23 +9,7 @@
         <p>Gestão da minha coleção de comics.</p>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-
-        <!-- Bloco 1: ReadMe First! -->
-        <div class="col">
-            <div class="card h-100 text-center shadow-sm">
-                <div class="card-body p-4">
-                    <h3 class="card-title">ReadMe First!</h3>
-                    <p class="card-text">
-                        Consulta as instruções de instalação e utilização do projeto.
-                    </p>
-                    <a href="{{ route('readme.first') }}" class="btn btn-primary">
-                        Ler instruções
-                    </a>
-                </div>
-            </div>
-        </div>
-
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         <!-- Bloco 2: All Comics -->
         <div class="col">
             <div class="card h-100 text-center shadow-sm">

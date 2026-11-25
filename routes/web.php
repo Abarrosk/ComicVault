@@ -61,10 +61,7 @@ Route::delete('/comics/{id}', [ComicController::class, 'deleteComic'])
     ->middleware('auth')
     ->name('comics.destroy');
 
-    // Página ReadMe First!
-Route::get('/readme-first', function () {
-    return view('utils.readmeFirst');
-})->name('readme.first');
+
 
 // Confirmar eliminação de Issue
 Route::get('/issues/{id}/eliminar', [IssueController::class, 'confirmarEliminarIssue'])
