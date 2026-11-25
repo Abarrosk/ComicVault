@@ -92,6 +92,8 @@ class ComicController extends Controller
             'issues.*.nome_serie' => 'required|string|max:255',
             'issues.*.numero_edicao' => 'required|string|max:20',
             'issues.*.titulo' => 'nullable|string|max:255',
+            'issues.*.data_publicacao' => 'nullable|date',
+'issues.*.capa' => 'nullable|image|max:2048',
         ]);
 
         // Guardar a capa do comic
@@ -115,15 +117,27 @@ class ComicController extends Controller
         ]);
 
         // Criar as issues associadas ao comic
-        foreach ($request->input('issues', []) as $indice => $dadosIssue) {
-            Issue::create([
-                'id_comic' => $comic->id,
-                'nome_serie' => $dadosIssue['nome_serie'],
-                'numero_edicao' => $dadosIssue['numero_edicao'],
-                'titulo' => $dadosIssue['titulo'] ?? null,
-                'isbn' => $dadosIssue['isbn'] ?? null,
-            ]);
-        }
+        // Criar as issues associadas ao comic
+foreach ($request->input('issues', []) as $indice => $dadosIssue) {
+
+    $caminhoCapaIssue = null;
+
+    // Guardar a capa da issue, caso tenha sido enviada
+    if ($request->hasFile("issues.$indice.capa")) {
+        $caminhoCapaIssue = Storage::disk('public')
+            ->putFile('issues', $request->file("issues.$indice.capa"));
+    }
+
+    Issue::create([
+        'id_comic' => $comic->id,
+        'nome_serie' => $dadosIssue['nome_serie'],
+        'numero_edicao' => $dadosIssue['numero_edicao'],
+        'titulo' => $dadosIssue['titulo'] ?? null,
+        'isbn' => $dadosIssue['isbn'] ?? null,
+        'data_publicacao' => $dadosIssue['data_publicacao'] ?? null,
+        'caminho_capa' => $caminhoCapaIssue,
+    ]);
+}
         return redirect()
             ->route('comics.show', $comic->id)
             ->with('message', 'Comic e issues adicionados com sucesso!');
@@ -190,12 +204,16 @@ if (Auth::user()->tipo_utilizador != 1 &&
             'issues.*.numero_edicao' => 'required|string|max:20',
             'issues.*.isbn' => 'nullable|string|max:20',
             'issues.*.titulo' => 'nullable|string|max:255',
+            'issues.*.data_publicacao' => 'nullable|date',
+'issues.*.capa' => 'nullable|image|max:2048',
 
             'novas_issues' => 'nullable|array|max:100',
 'novas_issues.*.nome_serie' => 'required|string|max:255',
 'novas_issues.*.numero_edicao' => 'required|string|max:20',
 'novas_issues.*.isbn' => 'nullable|string|max:20',
 'novas_issues.*.titulo' => 'nullable|string|max:255',
+'novas_issues.*.data_publicacao' => 'nullable|date',
+'novas_issues.*.capa' => 'nullable|image|max:2048',
         ]);
 
         // Manter a capa anterior se não for enviada outra
@@ -223,27 +241,55 @@ if (Auth::user()->tipo_utilizador != 1 &&
         ]);
 
         // Atualizar as issues já associadas ao comic
-        $issuesComic = Issue::where('id_comic', $comic->id)->get();
+$issuesComic = Issue::where('id_comic', $comic->id)->get();
 
-        foreach ($issuesComic as $issue) {
+foreach ($issuesComic as $issue) {
 
-            $dadosIssue = $request->input('issues.' . $issue->id);
+    $dadosIssue = $request->input('issues.' . $issue->id);
 
-            if ($dadosIssue !== null) {
+    if ($dadosIssue !== null) {
 
-                $issue->update([
-                    'nome_serie' => $dadosIssue['nome_serie'],
-                    'numero_edicao' => $dadosIssue['numero_edicao'],
-                    'isbn' => $dadosIssue['isbn'] ?? null,
-                    'titulo' => $dadosIssue['titulo'] ?? null,
-                ]);
-            }
+        $caminhoAntigoIssue = $issue->caminho_capa;
+        $caminhoNovoIssue = $caminhoAntigoIssue;
+
+        // Substituir a capa se tiver sido enviada uma nova
+        if ($request->hasFile("issues.{$issue->id}.capa")) {
+            $caminhoNovoIssue = Storage::disk('public')
+                ->putFile('issues', $request->file("issues.{$issue->id}.capa"));
         }
 
+        $issue->update([
+            'nome_serie' => $dadosIssue['nome_serie'],
+            'numero_edicao' => $dadosIssue['numero_edicao'],
+            'isbn' => $dadosIssue['isbn'] ?? null,
+            'titulo' => $dadosIssue['titulo'] ?? null,
+            'data_publicacao' => $dadosIssue['data_publicacao'] ?? null,
+            'caminho_capa' => $caminhoNovoIssue,
+        ]);
+
+        // Eliminar a imagem antiga, se tiver sido substituída
+        if ($caminhoAntigoIssue &&
+            $caminhoNovoIssue !== $caminhoAntigoIssue &&
+            !str_starts_with($caminhoAntigoIssue, 'http')) {
+
+            Storage::disk('public')->delete($caminhoAntigoIssue);
+        }
+    }
+}
+
         // Criar as novas issues associadas ao comic
+
+// Criar as novas issues associadas ao comic
 if (Auth::user()->tipo_utilizador == 1) {
 
-    foreach ($request->input('novas_issues', []) as $dadosIssue) {
+    foreach ($request->input('novas_issues', []) as $indice => $dadosIssue) {
+
+        $caminhoCapaIssue = null;
+
+        if ($request->hasFile("novas_issues.$indice.capa")) {
+            $caminhoCapaIssue = Storage::disk('public')
+                ->putFile('issues', $request->file("novas_issues.$indice.capa"));
+        }
 
         Issue::create([
             'id_comic' => $comic->id,
@@ -251,6 +297,8 @@ if (Auth::user()->tipo_utilizador == 1) {
             'numero_edicao' => $dadosIssue['numero_edicao'],
             'isbn' => $dadosIssue['isbn'] ?? null,
             'titulo' => $dadosIssue['titulo'] ?? null,
+            'data_publicacao' => $dadosIssue['data_publicacao'] ?? null,
+            'caminho_capa' => $caminhoCapaIssue,
         ]);
     }
 }

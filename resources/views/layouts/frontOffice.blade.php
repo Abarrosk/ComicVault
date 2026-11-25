@@ -54,6 +54,11 @@
                                     Adicionar Comic
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('issues.add') }}">
+                                    Adicionar Issue
+                                </a>
+                            </li>
                         @endif
                     @endauth
 

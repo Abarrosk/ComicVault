@@ -87,7 +87,16 @@
                         value="{{ old('issues.' . $i . '.titulo') }}">
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Data de Publicação (opcional)</label>
+                    <input type="date" name="issues[{{ $i }}][data_publicacao]" class="form-control"
+                        value="{{ old('issues.' . $i . '.data_publicacao') }}">
+                </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Capa da Issue (opcional)</label>
+                    <input type="file" name="issues[{{ $i }}][capa]" class="form-control" accept="image/*">
+                </div>
 
 
             </div>

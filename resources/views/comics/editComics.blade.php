@@ -86,6 +86,25 @@
                         value="{{ old('issues.' . $issue->id . '.titulo', $issue->titulo) }}">
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Data de Publicação (opcional)</label>
+                    <input type="date" name="issues[{{ $issue->id }}][data_publicacao]" class="form-control"
+                        value="{{ old('issues.' . $issue->id . '.data_publicacao', $issue->data_publicacao) }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Capa da Issue (opcional)</label>
+
+                    @if ($issue->caminho_capa)
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/' . $issue->caminho_capa) }}" width="120"
+                                alt="Capa atual da issue">
+                        </div>
+                    @endif
+
+                    <input type="file" name="issues[{{ $issue->id }}][capa]" class="form-control" accept="image/*">
+                </div>
+
             </div>
 
         @empty
@@ -127,6 +146,18 @@
                             value="{{ old('novas_issues.' . $i . '.titulo') }}">
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Data de Publicação (opcional)</label>
+                        <input type="date" name="novas_issues[{{ $i }}][data_publicacao]"
+                            class="form-control" value="{{ old('novas_issues.' . $i . '.data_publicacao') }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Capa da Issue (opcional)</label>
+                        <input type="file" name="novas_issues[{{ $i }}][capa]" class="form-control"
+                            accept="image/*">
+                    </div>
+
                 </div>
             @endfor
 
@@ -153,7 +184,7 @@
 
         <div class="mb-3">
             <label class="form-label">
-                 Apenas uma capa por comic
+                Apenas uma capa por comic
             </label>
 
             <input type="file" name="capa" class="form-control" accept="image/*">

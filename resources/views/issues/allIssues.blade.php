@@ -5,6 +5,11 @@
 @section('content')
 
     <h1>A minha coleção de Issues</h1>
+    @if (session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
 
     <!-- TABELA 1: TODAS AS ISSUES -->
     <h4>Todas as Issues</h4>
@@ -15,6 +20,7 @@
                 <th>Capa</th>
                 <th>Nome da Série</th>
                 <th>N.º Edição</th>
+                <th>Data de Publicação</th>
                 <th>Título</th>
                 <th>Comic</th>
                 <th>Ações</th>
@@ -34,13 +40,32 @@
 
                     <td>{{ $issue->nome_serie }}</td>
                     <td>{{ $issue->numero_edicao }}</td>
+                    <td>{{ $issue->data_publicacao ?? '—' }}</td>
                     <td>{{ $issue->titulo }}</td>
                     <td>{{ $issue->titulo_comic }}</td>
 
                     <td>
-                        <a href="{{ route('issues.show', $issue->id) }}" class="btn btn-primary btn-sm">
-                            Ver detalhes
-                        </a>
+                        <div class="d-flex gap-2">
+
+                            <a href="{{ route('issues.show', $issue->id) }}" class="btn btn-primary btn-sm">
+                                Ver detalhes
+                            </a>
+
+                            @auth
+
+                                <a href="{{ route('issues.edit', $issue->id) }}" class="btn btn-warning btn-sm">
+                                    Editar
+                                </a>
+
+                                @if (Auth::user()->tipo_utilizador == 1)
+                                    <a href="{{ route('issues.confirmarEliminar', $issue->id) }}" class="btn btn-danger btn-sm">
+                                        Eliminar
+                                    </a>
+                                @endif
+
+                            @endauth
+
+                        </div>
                     </td>
                 </tr>
             @endforeach

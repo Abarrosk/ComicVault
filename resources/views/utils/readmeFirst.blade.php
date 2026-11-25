@@ -116,6 +116,35 @@
             a cada imagem.
         </p>
 
+
+        <h3 class="h5 mt-4">Nota sobre a seleção das imagens</h3>
+
+        <p>
+            Ao adicionar um comic com várias issues, utilizei um botão
+            que permite acrescentar os campos de cada issue através
+            do recarregamento do formulário.
+        </p>
+
+        <p>
+            Por motivos de segurança, o navegador não permite
+            repor automaticamente os ficheiros anteriormente
+            selecionados num campo <code>type="file"</code>
+            após o recarregamento da página.
+        </p>
+
+        <p>
+            Este comportamento não representa um erro na gravação
+            da base de dados.
+        </p>
+
+        <p>
+            Por esse motivo, e para manter o projeto sem JavaScript
+            nesta funcionalidade, recomendo adicionar primeiro
+            todas as issues, preencher os respetivos dados e
+            selecionar as capas apenas no final, antes de guardar.
+        </p>
+
+
         <hr>
 
         <!-- 5. Instruções -->

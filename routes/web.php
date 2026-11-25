@@ -32,8 +32,7 @@ Route::get('/comics/{id}', [ComicController::class, 'allComics'])
 Route::get('/issues', [IssueController::class, 'allIssues'])
     ->name('issues.all');
 
-Route::get('/issues/{id}', [IssueController::class, 'allIssues'])
-    ->name('issues.show');
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
@@ -66,6 +65,37 @@ Route::delete('/comics/{id}', [ComicController::class, 'deleteComic'])
 Route::get('/readme-first', function () {
     return view('utils.readmeFirst');
 })->name('readme.first');
+
+// Confirmar eliminação de Issue
+Route::get('/issues/{id}/eliminar', [IssueController::class, 'confirmarEliminarIssue'])
+    ->middleware('auth')
+    ->name('issues.confirmarEliminar');
+
+// Eliminar Issue
+Route::delete('/issues/{id}', [IssueController::class, 'deleteIssue'])
+    ->middleware('auth')
+    ->name('issues.destroy');
+
+    // Adicionar Issue - apenas administrador
+Route::get('/issues/adicionar', [IssueController::class, 'addIssue'])
+    ->middleware('auth')
+    ->name('issues.add');
+
+    Route::get('/issues/{id}', [IssueController::class, 'allIssues'])
+    ->name('issues.show');
+
+Route::post('/issues/adicionar', [IssueController::class, 'storeIssue'])
+    ->middleware('auth')
+    ->name('issues.store');
+
+// Editar Issue - utilizadores autenticados
+Route::get('/issues/{id}/editar', [IssueController::class, 'editIssue'])
+    ->middleware('auth')
+    ->name('issues.edit');
+
+Route::put('/issues/{id}', [IssueController::class, 'updateIssue'])
+    ->middleware('auth')
+    ->name('issues.update');
 
     // Rota fallback - Página não encontrada
 Route::fallback(function () {
